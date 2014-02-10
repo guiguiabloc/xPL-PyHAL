@@ -1,0 +1,4 @@
+ACTION: script
+MODULE: "1"
+COMMAND: "off"
+SCRIPTNAME : "/tmp/myscript.sh"

@@ -1,0 +1,49 @@
+Principe
+
+xPL-PyHAL est un centralisateur xPL.
+Il écoute les messages sur le bus xPL et execute les ordres qui lui sont définis quand un message xPL correspond.
+Les ordres sont à déposer dans le répertoire "yamlrepo" sous la forme de fichier YAML.
+Le fichier doit porter l'extension ".yaml".
+
+Exemple d'application :
+Je souhaite allumer le relais 1 du boitier ipx800 quand j'appuie sur l'interrupteur CHACON.
+Il s'agit d'un ordre de type "HomeEasy" (schéma homeeasy.basic) à destination du client xPL-ipx800.
+
+Le fichier YAML aura la forme suivante (interrupteur.yaml) :
+ACTION: command
+MODULE: "0x4b92ba"
+UNIT: "9"
+TARGETXPL: "ipx800"
+TARGETMODULE: 2
+
+ACTION : c'est une commande à executer
+MODULE: le module qui initie l'ordre (ici l'adresse de l'interrupteur CHACON)
+UNIT : l'unite de l'interrupteur
+TARGETXPL : le client xPL qui doit executer l'ordre (ici le client xPL-ipx800)
+TARGETMODULE: le relais cible a commander sur l'ipx800
+
+Autre exemple, en appuyant sur l'interrupteur, je veux allumer une lampe x10 référencé comme module A2.
+Le fichier interrupteur.yaml contiendra les valeurs suivantes:
+ACTION: command
+MODULE: "0x54cd16"
+UNIT: 10
+TARGETXPL: heyu
+TARGETMODULE: a2
+
+Structure des fichiers YAML de xPL-PyHAL :
+
+Le fichier doit contenir l'action à executer quand le message xPL est intercepté :
+
+ACTION: command (commander un client xPL)
+ACTION: store (stocker l'information de la valeur quelque part)
+ACTION: message (envoyer un message)
+
+MODULE : L'adresse ou le code du module qui doit être supervisé (adresse homeeasy ou module x10, entre guillemets)
+UNITE: l'unité du module à supervisé (peut être vide s'il s'agit d'un module sans unité)
+
+TARGETXPL: la cible qui va être commander par le centraliseur xPL-PyHAL
+           HEYU (message a destination du client xPL-heyu) (si ACTION: command)
+           IPX800 (message à destination du client xPL-ipx800) (si ACTION: command)
+           MEMCACHED (stockage dans un serveur Memcache) (si ACTION: store)
+           NOTIFRY (message à destination du client xpl-pushmsg) (si ACTION: message)
+

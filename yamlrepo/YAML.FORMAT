@@ -1,0 +1,63 @@
+###########
+# MESSAGE #
+###########
+
+# Message sending MODULE + COMMAND, alternate add TARGET MESSAGE
+
+ACTION: message
+TARGETXPL: notifry (need xpl-pushmsg from Poulpy's blog) | email (not implemented) | pushingbox
+MODULE: "address"
+UNIT: "unit address" (or empty)
+TARGETMESSAGE: optional
+KEY: (for pushingbox or notifry message) optional
+
+###########
+# COMMAND #
+###########
+
+# execute remote command
+
+ACTION: command
+TARGETXPL: heyu | ipx800
+MODULE: "address"
+UNIT: "unit adress" (or empty)
+TARGETMODULE: target heyu module or ipx800 relay number
+
+or
+
+ACTION: log
+TARGETXPL: "/tmp/filename" (full path)
+MODULE: "modulename"
+MESSAGE: "optional"
+
+or
+
+ACTION: store
+TARGETXPL: memcached | SQLlite | MySQL
+MODULE: "address"
+
+#  MEMCACHED TARGET
+MODULE: modulename or "address"
+KEY: keyname (memcached)
+TIME: time to store (memcached (default 900))
+
+# NB : Value store in memcached = command
+
+or
+
+ACTION: script
+MODULE: "address"
+UNIT: "unit adress" (or empty)
+COMMANDE: on | off
+SCRIPTNAME : script path and name
+
+
+# NOT IMPLEMENTED #
+MULTIPLE COMMAND
+---
+command
+...
+---
+command
+...
+

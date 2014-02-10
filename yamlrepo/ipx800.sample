@@ -1,0 +1,11 @@
+# action type is command
+ACTION: command
+# the module address to watch
+MODULE: "0x4b92ba"
+# unit module to watch
+UNIT: "9"
+# ipx800 target remote command
+TARGETXPL: "ipx800"
+# specify relay to act
+TARGETMODULE: 2
+

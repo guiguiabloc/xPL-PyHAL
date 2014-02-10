@@ -1,0 +1,5 @@
+ACTION: script
+MODULE: "0x4444ba"
+UNIT: "9"
+COMMAND: "on"
+SCRIPTNAME : "/tmp/myscript.sh"

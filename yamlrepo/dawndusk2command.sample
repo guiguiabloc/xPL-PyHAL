@@ -1,0 +1,7 @@
+MODULE: dawndusk
+DAYNIGHT: dusk
+ACTION: command
+TARGETXPL: heyu
+TARGETCOMMAND: "on"
+TARGETMODULE: "a5"
+

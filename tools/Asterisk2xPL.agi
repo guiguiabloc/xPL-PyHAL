@@ -1,0 +1,77 @@
+#!/usr/bin/python
+# -*- coding: ISO-8859-1 -*-
+#
+# Asterisk2xPL
+# http://blog.guiguiabloc.fr
+
+"""
+Script AGI (Asterisk Gateway Interface) permettant à Asterisk d'émettre un message xPL
+ comportant le numéro appelé ou le numéro appelant.
+Copier ce script dans le répertoire agi-bin d'Asterisk (généralement /var/lib/asterisk/agi-bin)
+Mettre l'utilisateur asterisk propriétaire de ce script et le rendre executable
+
+Pour intercepter les appels, il faut rajouter une entrée dans votre extensions.conf :
+
+exemple pour envoyer un message xPL à chaque appel sortant avec le numéro appelé:
+dans votre contexte "appel sortant":
+[appelsortant]
+exten => _0ZXXXXXXXX,1,AGI(/usr/bin/python,"/var/lib/asterisk/agi-bin/Asterisk2xPL.agi")
+exten => _0ZXXXXXXXX,2,Dial(SIP/freephonie-out/${EXTEN})
+
+exemple pour envoyer un message xPL à chaque appel entrant avec le numéro appelant :
+dans votre contexte "appel entrant":
+[appelentrant]
+exten => s,1,Ringing
+exten => s,2,AGI(/usr/bin/python,"/var/lib/asterisk/agi-bin/Asterisk2xPL.agi")
+...
+
+Attention, par défaut le message "INBOUND" (appel sortant) est produit quand le script voit
+une extension "s" (comportement le plus souvent rencontré pour les appels entrants)
+
+
+"""
+
+import sys,os,socket
+
+hostname = socket.gethostname()
+xpladdr = ("255.255.255.255",3865)
+xplport = 3865
+UDPSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+UDPSock.setsockopt(socket.SOL_SOCKET,socket.SO_BROADCAST,1)
+
+
+def get():
+    res = sys.stdin.readline()
+    res = res.strip()
+    response,delim,result=res.partition(' ')
+    result=result.split('=')[1].strip()
+    result,delim,data = result.partition(' ')
+    return response,result,data
+
+def send(data):
+    sys.stdout.write("%s \n"%data)
+    sys.stdout.flush()
+
+
+AGIENV={}
+
+env = ""
+while(env != "\n"):
+
+    env = sys.stdin.readline()
+    envdata =  env.split(":")
+    if len(envdata)==2:
+        AGIENV[envdata[0].strip()]=envdata[1].strip()
+
+incomingnumber = AGIENV['agi_callerid']
+outgoingnumber = AGIENV['agi_extension']
+
+if outgoingnumber == "s":
+  body = 'calltype=INBOUND\nphone='+incomingnumber
+  msg = "xpl-trig\n{\nhop=1\nsource=guigui-asterisk."+hostname+"\ntarget=*\n}\ncid.basic\n{\n" + body + "\n}\n"
+  UDPSock.sendto(msg,xpladdr)
+else:
+  body = 'calltype=OUTBOUND\nphone='+outgoingnumber
+  msg = "xpl-trig\n{\nhop=1\nsource=guigui-asterisk."+hostname+"\ntarget=*\n}\ncid.basic\n{\n" + body + "\n}\n"
+  UDPSock.sendto(msg,xpladdr)
+

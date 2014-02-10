@@ -1,0 +1,4 @@
+MODULE: dawndusk
+DAYNIGHT: dusk
+ACTION: script
+SCRIPTNAME : "/tmp/myscript.sh"

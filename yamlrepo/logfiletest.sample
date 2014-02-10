@@ -1,0 +1,5 @@
+ACTION: log
+TARGETXPL: "/var/log/domo.log"
+MODULE: "216"
+MESSAGE: "ALERTE INONDATION"
+

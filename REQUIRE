@@ -1,0 +1,13 @@
+python >= 2.5
+python-memcache or pylibmc (http://pypi.python.org/pypi/pylibmc) (BETTER)
+python-yaml
+
+xpl-heyu for x10 command
+
+a xPL HUB (listening on 0.0.0.0 or broadcast address. Example : /usr/bin/xpl-hub -i eth0 --define broadcast=0.0.0.0)
+
+optional:
+IPX800 : xPL-ipx800 (http://code.google.com/p/guiguiabloc/downloads/detail?name=xPL-ipx800.py)
+Asterisk : Asterik2xPL (http://code.google.com/p/guiguiabloc/downloads/detail?name=Asterisk2xPL.agi)
+Notifry : xPL-Notifry (http://code.google.com/p/guiguiabloc/downloads/detail?name=xPL-Notifry.py)
+DawnDusk : xpl-dawndusk (https://github.com/beanz/xpl-perl/)

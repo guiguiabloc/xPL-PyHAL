@@ -1,0 +1,6 @@
+ACTION: command
+MODULE: "0x55dd16"
+UNIT: "10"
+TARGETXPL: heyu
+TARGETMODULE: "a2"
+

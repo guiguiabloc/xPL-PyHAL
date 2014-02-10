@@ -1,0 +1,6 @@
+MODULE: dawndusk
+DAYNIGHT: dusk
+ACTION: message
+TARGETXPL: notifry
+KEY: "9999999999999999999"
+MESSAGE: "il fait nuit"

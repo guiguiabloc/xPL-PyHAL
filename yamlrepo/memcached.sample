@@ -1,0 +1,6 @@
+ACTION: store
+TARGETXPL: memcached
+MODULE: "0x4b92ba"
+UNIT: "9"
+KEY: "window"
+TIME: "60"
